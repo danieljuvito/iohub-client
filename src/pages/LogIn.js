@@ -28,7 +28,19 @@ function LogIn() {
                 email: emailRef.current.value,
                 password: passwordRef.current.value,
             })
-            login(response.data)
+
+            setTimeout(() => {
+                login(response.data)
+            }, 1);
+
+            toasts.info({
+                headerContent: "Success",
+                bodyContent: "Successfully logged in.",
+                toastProps: {
+                    autohide: true,
+                    delay: 3000,
+                },
+            })
         } catch (e) {
             const status = e?.response?.status
 

@@ -13,7 +13,7 @@ const Header = () => {
                 <Container>
                     <Navbar.Brand href="#home"><h1>IOHub</h1></Navbar.Brand>
                     {user
-                        ? <Nav variant="pills" defaultActiveKey="#first">
+                        ? <Nav variant="pills">
                             <Nav.Item>
                                 <LinkContainer to="/">
                                     <Nav.Link>Feed</Nav.Link>
@@ -30,7 +30,7 @@ const Header = () => {
                                 </LinkContainer>
                             </Nav.Item>
                         </Nav>
-                        : <Nav variant="pills" defaultActiveKey="#first">
+                        : <Nav variant="pills">
                             <Nav.Item>
                                 <LinkContainer to="/login">
                                     <Nav.Link>Log In</Nav.Link>

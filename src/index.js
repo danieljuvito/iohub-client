@@ -11,7 +11,14 @@ import {ToastsProvider} from 'react-bootstrap-toasts';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
-        <ToastsProvider toastContainerProps={{position: 'bottom-end', className: 'p-2'}}>
+        <ToastsProvider toastContainerProps={{
+            position: 'bottom-end',
+            className: 'p-2',
+            style: {
+                zIndex: 1,
+                position: "fixed",
+            }
+        }}>
             <BrowserRouter>
                 <AuthProvider>
                     <App/>
