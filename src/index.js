@@ -6,15 +6,18 @@ import {BrowserRouter} from "react-router-dom";
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {AuthProvider} from "./hooks/useAuth";
+import {ToastsProvider} from 'react-bootstrap-toasts';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
-        <BrowserRouter>
-            <AuthProvider>
-                <App/>
-            </AuthProvider>
-        </BrowserRouter>
+        <ToastsProvider toastContainerProps={{position: 'bottom-end', className: 'p-2'}}>
+            <BrowserRouter>
+                <AuthProvider>
+                    <App/>
+                </AuthProvider>
+            </BrowserRouter>
+        </ToastsProvider>
     </React.StrictMode>
 );
 

@@ -5,19 +5,20 @@ import {useEffect, useRef} from "react";
 import axios from "axios";
 import {useAuth} from "../hooks/useAuth";
 import {useNavigate} from "react-router-dom";
+import {useToasts} from "react-bootstrap-toasts";
 
 function LogIn() {
     const {user, login} = useAuth()
     const navigate = useNavigate();
+    const toasts = useToasts();
+    const emailRef = useRef("")
+    const passwordRef = useRef("")
 
     useEffect(() => {
         if (user) {
             navigate("/", {replace: true});
         }
     }, [user])
-
-    const emailRef = useRef("")
-    const passwordRef = useRef("")
 
     const onClick = async (event) => {
         event.preventDefault()
@@ -29,12 +30,31 @@ function LogIn() {
             })
             login(response.data)
         } catch (e) {
-            console.log(e.response.status)
+            const status = e?.response?.status
+
+            let content = "There's something wrong."
+            switch (status) {
+                case 400: {
+                    content = e?.response?.data?.message ?? "Invalid request."
+                    break;
+                }
+                case 401: {
+                    content = "Email or password is incorrect."
+                }
+            }
+            toasts.danger({
+                headerContent: "Failed",
+                bodyContent: content,
+                toastProps: {
+                    autohide: true,
+                    delay: 3000,
+                },
+            })
         }
     }
 
     return (
-        <Container className="d-flex justify-content-center align-items-center" style={{height: "100vh"}}>
+        <Container className="d-flex justify-content-center align-items-center" style={{height: "80vh"}}>
             <Form>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
@@ -48,15 +68,13 @@ function LogIn() {
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" placeholder="Password" ref={passwordRef}/>
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="Check me out"/>
-                </Form.Group>
+
                 <Button variant="primary" type="submit" onClick={onClick}>
                     Submit
                 </Button>
             </Form>
         </Container>
-    );
+    )
 }
 
 export default LogIn;
