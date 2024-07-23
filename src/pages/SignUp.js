@@ -87,7 +87,16 @@ function SignUp() {
 
                     <Form.Group className="mb-3" controlId="formBasicPassword">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" ref={passwordRef}/>
+                        <Form.Control type="password" placeholder="Enter password" ref={passwordRef}/>
+                        <Form.Text id="passwordHelpBlock" muted>
+                            Your password must be 8-20 characters long, contain letters and numbers,
+                            and must not contain spaces, special characters, or emoji.
+                        </Form.Text>
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
+                        <Form.Label>Confirm Password</Form.Label>
+                        <Form.Control type="password" placeholder="Re-enter password" ref={passwordRef}/>
                     </Form.Group>
 
                     <Button variant="primary" type="submit">
