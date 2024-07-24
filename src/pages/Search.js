@@ -29,11 +29,11 @@ const Search = () => {
         }
 
         try {
-            const response = await axios.get(`http://localhost:8080/users?search=${search}&page=${page}&limit=10`, {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/users?search=${search}&page=${page}&limit=10`, {
                 headers: {
                     Authorization: `Bearer ${user.token}`,
                 }
-            });
+            })
 
             if (response.data.length === 0) {
                 setHasMore(false)
@@ -61,7 +61,7 @@ const Search = () => {
         }
 
         try {
-            await axios.patch(`http://localhost:8080/users/${action}/${item.id}`, {}, {
+            await axios.patch(`${process.env.REACT_APP_API_URL}/users/${action}/${item.id}`, {}, {
                 headers: {
                     Authorization: `Bearer ${user.token}`,
                 },

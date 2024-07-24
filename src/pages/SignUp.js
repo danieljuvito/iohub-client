@@ -25,7 +25,7 @@ function SignUp() {
         event.preventDefault()
 
         try {
-            await axios.post("http://localhost:8080/users/sign-up", {
+            await axios.post(`${process.env.REACT_APP_API_URL}/users/sign-up`, {
                 name: nameRef.current.value,
                 email: emailRef.current.value,
                 password: passwordRef.current.value,

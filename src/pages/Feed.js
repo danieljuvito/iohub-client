@@ -36,7 +36,7 @@ const Feed = () => {
 
     const handleSave = async () => {
         try {
-            await axios.post(`http://localhost:8080/stories`, {
+            await axios.post(`${process.env.REACT_APP_API_URL}/stories`, {
                 content: contentRef.current.value,
             }, {
                 headers: {
@@ -64,7 +64,7 @@ const Feed = () => {
 
     const fetchData = async (page) => {
         try {
-            const response = await axios.get(`http://localhost:8080/users/feed?page=${page}&limit=10`, {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/users/feed?page=${page}&limit=10`, {
                 headers: {
                     Authorization: `Bearer ${user.token}`,
                 }
@@ -87,7 +87,7 @@ const Feed = () => {
     };
 
     useEffect(() => {
-        axios.get("http://localhost:8080/stories", {
+        axios.get(`${process.env.REACT_APP_API_URL}/stories`, {
             headers: {
                 Authorization: `Bearer ${user.token}`,
             }
@@ -117,7 +117,7 @@ const Feed = () => {
         }
 
         try {
-            await axios.patch(`http://localhost:8080/users/${action}/${item.id}`, {}, {
+            await axios.patch(`${process.env.REACT_APP_API_URL}/users/${action}/${item.id}`, {}, {
                 headers: {
                     Authorization: `Bearer ${user.token}`,
                 },

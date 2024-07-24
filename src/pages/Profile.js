@@ -12,7 +12,7 @@ export const Profile = () => {
     const [email, setEmail] = useState()
 
     useEffect(() => {
-        axios.get("http://localhost:8080/users/identity", {
+        axios.get("${process.env.REACT_APP_API_URL}/users/identity", {
             headers: {
                 Authorization: `Bearer ${user.token}`,
             }
@@ -50,7 +50,7 @@ export const Profile = () => {
 
     const handleLogout = async () => {
             try {
-                await axios.delete("http://localhost:8080/sessions/log-out", {
+                await axios.delete("${process.env.REACT_APP_API_URL}/sessions/log-out", {
                     headers: {
                         Authorization: `Bearer ${user.token}`,
                     }

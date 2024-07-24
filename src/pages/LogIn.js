@@ -24,7 +24,8 @@ function LogIn() {
         event.preventDefault()
 
         try {
-            const response = await axios.post("http://localhost:8080/sessions/log-in", {
+            console.log(process.env.REACT_APP_API_URL)
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/sessions/log-in`, {
                 email: emailRef.current.value,
                 password: passwordRef.current.value,
             })
