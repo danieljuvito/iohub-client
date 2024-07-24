@@ -14,6 +14,7 @@ function SignUp() {
     const nameRef = useRef("")
     const emailRef = useRef("")
     const passwordRef = useRef("")
+    const confirmPasswordRef = useRef("")
 
     useEffect(() => {
         if (user) {
@@ -23,6 +24,20 @@ function SignUp() {
 
     const handleSubmit = async (event) => {
         event.preventDefault()
+
+        const password = passwordRef.current.value
+        const confirmPassword = confirmPasswordRef.current.value
+
+        if (password !== confirmPassword) {
+            toasts.danger({
+                headerContent: "Failed",
+                bodyContent: "Confirm password is not identical.",
+                toastProps: {
+                    autohide: true,
+                    delay: 3000,
+                },
+            })
+        }
 
         try {
             await axios.post(`${process.env.REACT_APP_API_URL}/users/sign-up`, {
@@ -89,14 +104,15 @@ function SignUp() {
                         <Form.Label>Password</Form.Label>
                         <Form.Control type="password" placeholder="Enter password" ref={passwordRef}/>
                         <Form.Text id="passwordHelpBlock" muted>
-                            Your password must be 8-20 characters long, contain letters and numbers,
-                            and must not contain spaces, special characters, or emoji.
+                            Your password must be 8-20 characters long, contain letters, numbers, and special
+                            characters,
+                            and must not contain spaces or emoji.
                         </Form.Text>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
                         <Form.Label>Confirm Password</Form.Label>
-                        <Form.Control type="password" placeholder="Re-enter password" ref={passwordRef}/>
+                        <Form.Control type="password" placeholder="Re-enter password" ref={confirmPasswordRef}/>
                     </Form.Group>
 
                     <Button variant="primary" type="submit">
