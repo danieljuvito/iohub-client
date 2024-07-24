@@ -7,6 +7,7 @@ import Search from "./pages/Search";
 import Feed from "./pages/Feed";
 import {Profile} from "./pages/Profile";
 import SignUp from "./pages/SignUp";
+import Stories from "./pages/Stories";
 
 function App() {
     return (
@@ -24,6 +25,7 @@ function App() {
                 <Route path="/" element={<ProtectedRoute><Feed/></ProtectedRoute>}/>
                 <Route path="/search" element={<ProtectedRoute><Search/></ProtectedRoute>}/>
                 <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>}/>
+                <Route path="/stories/:id" element={<ProtectedRoute><Stories/></ProtectedRoute>}/>
             </Routes>
         </div>
     );
