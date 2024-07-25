@@ -11,6 +11,7 @@ import {useToasts} from "react-bootstrap-toasts";
 import Badge from 'react-bootstrap/Badge';
 import Stack from 'react-bootstrap/Stack';
 import {useNavigate} from "react-router-dom";
+import useWebSocket, {ReadyState} from "react-use-websocket";
 
 const Feed = () => {
     const navigate = useNavigate()
@@ -24,6 +25,36 @@ const Feed = () => {
     const [hasMore, setHasMore] = useState(true)
     const [isEmpty, setIsEmpty] = useState(false)
     const hasRunInit = useRef(false)
+    const {lastMessage, readyState} = useWebSocket(`ws://localhost:8080/ws`);
+
+    useEffect(() => {
+        if (lastMessage !== null) {
+            const {followee_id, follower_ids} = JSON.parse(lastMessage.data)
+            if (follower_ids.includes(user.user_id)) {
+                toasts.info({
+                    headerContent: "New Story",
+                    bodyContent: `New story from ${followee_id}`,
+                    toastProps: {
+                        autohide: true,
+                        delay: 3000,
+                    },
+                })
+
+                setItems(items => {
+                    const newItems = [...items];
+                    const index = newItems.findIndex(item => item.user_id === followee_id)
+
+                    const item = newItems[index]
+
+                    newItems[index] = {
+                        ...item,
+                        story_count: item.story_count + 1,
+                    }
+                    return newItems
+                })
+            }
+        }
+    }, [lastMessage]);
 
     const reset = () => {
         setItems([])
