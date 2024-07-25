@@ -28,16 +28,31 @@ const Feed = () => {
     const {lastMessage, readyState} = useWebSocket(`ws://localhost:8080/ws`);
 
     useEffect(() => {
-        const connectionStatus = {
-            [ReadyState.CONNECTING]: 'Connecting',
-            [ReadyState.OPEN]: 'Open',
-            [ReadyState.CLOSING]: 'Closing',
-            [ReadyState.CLOSED]: 'Closed',
-            [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
-        }[readyState];
-        console.log(connectionStatus)
         if (lastMessage !== null) {
-            console.log(lastMessage)
+            const {followee_id, follower_ids} = JSON.parse(lastMessage.data)
+            if (follower_ids.includes(user.user_id)) {
+                toasts.info({
+                    headerContent: "New Story",
+                    bodyContent: `New story from ${followee_id}`,
+                    toastProps: {
+                        autohide: true,
+                        delay: 3000,
+                    },
+                })
+
+                setItems(items => {
+                    const newItems = [...items];
+                    const index = newItems.findIndex(item => item.user_id === followee_id)
+
+                    const item = newItems[index]
+
+                    newItems[index] = {
+                        ...item,
+                        story_count: item.story_count + 1,
+                    }
+                    return newItems
+                })
+            }
         }
     }, [lastMessage]);
 
