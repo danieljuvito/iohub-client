@@ -11,6 +11,7 @@ import {useToasts} from "react-bootstrap-toasts";
 import Badge from 'react-bootstrap/Badge';
 import Stack from 'react-bootstrap/Stack';
 import {useNavigate} from "react-router-dom";
+import useWebSocket, {ReadyState} from "react-use-websocket";
 
 const Feed = () => {
     const navigate = useNavigate()
@@ -24,6 +25,21 @@ const Feed = () => {
     const [hasMore, setHasMore] = useState(true)
     const [isEmpty, setIsEmpty] = useState(false)
     const hasRunInit = useRef(false)
+    const {lastMessage, readyState} = useWebSocket(`ws://localhost:8080/ws`);
+
+    useEffect(() => {
+        const connectionStatus = {
+            [ReadyState.CONNECTING]: 'Connecting',
+            [ReadyState.OPEN]: 'Open',
+            [ReadyState.CLOSING]: 'Closing',
+            [ReadyState.CLOSED]: 'Closed',
+            [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
+        }[readyState];
+        console.log(connectionStatus)
+        if (lastMessage !== null) {
+            console.log(lastMessage)
+        }
+    }, [lastMessage]);
 
     const reset = () => {
         setItems([])
