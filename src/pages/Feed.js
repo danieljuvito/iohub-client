@@ -168,13 +168,14 @@ const Feed = () => {
             <Card className="mb-2">
                 <Card.Body className='d-flex justify-content-between'>
                     <Stack direction="horizontal" gap={2}>
-                        <Badge bg={storyCount === 0 ? "primary" : "danger"}>{storyCount}</Badge>
+                        <Badge bg={storyCount === 0 ? "secondary" : "danger"}>{storyCount}</Badge>
                         Your Stories
                     </Stack>
                     <Button disabled={storyCount === 0} onClick={handleViewStory(user.user_id)}>View Story</Button>
                     <Button onClick={handleShow}>+</Button>
                 </Card.Body>
             </Card>
+            <hr></hr>
             <InfiniteScroll
                 dataLength={items.length} //This is important field to render the next data
                 next={async () => {
@@ -202,10 +203,12 @@ const Feed = () => {
                         <Card key={`${item.Name} ${index}`} className="mb-2">
                             <Card.Body className='d-flex justify-content-between'>
                                 <Stack direction="horizontal" gap={2}>
-                                    <Badge bg={item.story_count === 0 ? "primary" : "danger"}>{item.story_count}</Badge>
+                                    <Badge bg={item.story_count === 0 ? "secondary" : "danger"}>{item.story_count}</Badge>
                                     {item.name}
                                 </Stack>
-                                <Button onClick={handleViewStory(item.user_id)}>View Story</Button>
+                                <Button
+                                    disabled={item.story_count === 0}
+                                    onClick={handleViewStory(item.user_id)}>View Story</Button>
                                 <Button
                                     onClick={handleFollow(index)}
                                     variant={item.is_followed ? "white" : "primary"}
