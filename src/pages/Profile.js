@@ -20,7 +20,6 @@ export const Profile = () => {
             setName(response.data.name)
             setEmail(response.data.email)
         }).catch((e) => {
-            console.log(e)
             const status = e?.response?.status
 
             let content = "There's something wrong."
