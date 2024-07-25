@@ -177,9 +177,7 @@ const Feed = () => {
             <InfiniteScroll
                 dataLength={items.length} //This is important field to render the next data
                 next={async () => {
-                    console.log("start next")
                     await fetchData(page)
-                    console.log("finish next")
                 }}
                 hasMore={hasMore}
                 loader={<h4>Loading...</h4>}
