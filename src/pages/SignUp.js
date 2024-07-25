@@ -104,9 +104,9 @@ function SignUp() {
                         <Form.Label>Password</Form.Label>
                         <Form.Control type="password" placeholder="Enter password" ref={passwordRef}/>
                         <Form.Text id="passwordHelpBlock" muted>
-                            Your password must be 8-20 characters long, contain letters, numbers, and special
-                            characters,
-                            and must not contain spaces or emoji.
+                            Your password must be minimal 8 characters long, contain lowercase and uppercase letters,
+                            numbers, and special characters, and must not contain spaces or emoji or 3 repeating
+                            consecutive letters.
                         </Form.Text>
                     </Form.Group>
 
