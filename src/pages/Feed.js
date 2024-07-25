@@ -87,7 +87,7 @@ const Feed = () => {
     };
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API_URL}/stories`, {
+        axios.get(`${process.env.REACT_APP_API_URL}/stories?user_id=${user.user_id}`, {
             headers: {
                 Authorization: `Bearer ${user.token}`,
             }
@@ -171,7 +171,8 @@ const Feed = () => {
                         <Badge bg={storyCount === 0 ? "primary" : "danger"}>{storyCount}</Badge>
                         Your Stories
                     </Stack>
-                    <Button onClick={handleShow}>Create Story +</Button>
+                    <Button disabled={storyCount === 0} onClick={handleViewStory(user.user_id)}>View Story</Button>
+                    <Button onClick={handleShow}>+</Button>
                 </Card.Body>
             </Card>
             <InfiniteScroll
