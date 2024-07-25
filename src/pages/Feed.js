@@ -25,7 +25,7 @@ const Feed = () => {
     const [hasMore, setHasMore] = useState(true)
     const [isEmpty, setIsEmpty] = useState(false)
     const hasRunInit = useRef(false)
-    const {lastMessage, readyState} = useWebSocket(`ws://localhost:8080/ws`);
+    const {lastMessage, readyState} = useWebSocket(`${process.env.REACT_APP_WS_URL}/ws`);
 
     useEffect(() => {
         if (lastMessage !== null) {
