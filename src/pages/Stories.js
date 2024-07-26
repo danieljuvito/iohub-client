@@ -1,10 +1,11 @@
 import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import {useAuth} from "../hooks/useAuth";
 import ProgressBar from 'react-bootstrap/ProgressBar'
 import Container from "react-bootstrap/Container";
 import {useToasts} from "react-bootstrap-toasts";
+import {motion, useScroll} from "framer-motion"
 
 const Stories = () => {
     const navigate = useNavigate()
@@ -13,16 +14,42 @@ const Stories = () => {
     const {id} = useParams()
     const [progress, setProgress] = useState(0)
     const toasts = useToasts();
-
-    const delay = ms => new Promise(res => setTimeout(res, ms));
+    const [stories, setStories] = useState()
+    const [index, setIndex] = useState(undefined)
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            setProgress(progress => progress + 1)
-        }, 50)
+        if (story !== undefined) {
+            if (progress === 100) {
+                setStory(undefined)
+                setIndex(index => index + 1)
+            } else {
+                const interval = setInterval(() => {
+                    setProgress(progress => progress + 1)
+                }, 50)
 
-        return () => clearInterval(interval)
-    })
+                return () => clearInterval(interval)
+            }
+        }
+    }, [story, progress])
+
+    useEffect(() => {
+        if (index !== undefined) {
+            const story_id = stories[index]?.story_id
+            if (story_id === undefined) {
+                navigate("/", {replace: true})
+                return
+            }
+
+            axios.get(`${process.env.REACT_APP_API_URL}/stories/${story_id}`, {
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                }
+            }).then((response) => {
+                setStory(response.data)
+                setProgress(0)
+            })
+        }
+    }, [index])
 
     useEffect(() => {
         (async () => {
@@ -33,17 +60,8 @@ const Stories = () => {
                     }
                 })
 
-                for (let {story_id} of response.data) {
-                    setProgress(0)
-                    const response = await axios.get(`${process.env.REACT_APP_API_URL}/stories/${story_id}`, {
-                        headers: {
-                            Authorization: `Bearer ${user.token}`,
-                        }
-                    })
-                    setStory(response.data)
-                    await delay(5000)
-                }
-                navigate("/", {replace: true})
+                setStories(response.data)
+                setIndex(0)
             } catch (e) {
                 const status = e?.response?.status
 
@@ -75,9 +93,10 @@ const Stories = () => {
 
     return (
         <>
+            <motion.div style={{width: progress + "%", background: "red", height: "5px"}}></motion.div>
             {story
                 ? <>
-                    <ProgressBar now={progress}/>
+                    {/*<ProgressBar now={progress} min={0} max={100}/>*/}
                     <Container
                         className="d-flex justify-content-center align-content-center"
                         style={{
