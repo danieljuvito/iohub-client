@@ -25,7 +25,7 @@ const Stories = () => {
             } else {
                 const interval = setInterval(() => {
                     setProgress(progress => progress + 1)
-                }, 50)
+                }, 1)
 
                 return () => clearInterval(interval)
             }
