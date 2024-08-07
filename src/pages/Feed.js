@@ -148,7 +148,7 @@ const Feed = () => {
         }
 
         try {
-            await axios.patch(`${process.env.REACT_APP_API_URL}/users/${action}/${item.id}`, {}, {
+            await axios.patch(`${process.env.REACT_APP_API_URL}/users/${action}/${item.user_id}`, {}, {
                 headers: {
                     Authorization: `Bearer ${user.token}`,
                 },
